@@ -1,0 +1,58 @@
+{
+  "players": [
+    {
+      "id": "1",
+      "firstName": "John",
+      "lastName": "Doe",
+      "teamId": "1"
+    },
+    {
+      "id": "2",
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "teamId": "1"
+    },
+    {
+      "id": "3",
+      "firstName": "Mike",
+      "lastName": "Johnson",
+      "teamId": "2"
+    }
+  ],
+  "teams": [
+    {
+      "id": "1",
+      "teamName": "Team Alpha",
+      "establishedYear": 1995,
+      "location": "New York"
+    },
+    {
+      "id": "2",
+      "teamName": "Team Beta",
+      "establishedYear": 2001,
+      "location": "Los Angeles"
+    }
+  ],
+  "games": [
+    {
+      "id": "1",
+      "gameTitle": "Championship Match",
+      "gameDate": "2024-10-01",
+      "venue": "Madison Square Garden",
+      "duration": "2h 30m",
+      "result": "2-1",
+      "teamAId": "1",
+      "teamBId": "2"
+    },
+    {
+      "id": "2",
+      "gameDate": "2024-11-05",
+      "gameTitle": "Semi-Final",
+      "venue": "Staples Center",
+      "duration": "3h",
+      "result": "1-1",
+      "teamAId": "2",
+      "teamBId": "1"
+    }
+  ]
+}
