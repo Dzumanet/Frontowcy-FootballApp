@@ -26,7 +26,7 @@ export type GameEntity = {
 
 //Dto
 
-export type PlayerDto = Omit<PlayerEntity, "id">
+export type PlayerDto = Omit<PlayerEntity, "id" | "teamId">
 
 export type TeamDto = Omit<TeamEntity, "id">
 
