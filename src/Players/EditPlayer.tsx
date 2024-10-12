@@ -8,7 +8,8 @@ type EditPlayerProps = {
 }
 
 export const EditPlayer = ({ player }: EditPlayerProps) => {
-    const {mutate, isPending} = useUpdatePlayerMutation(player.id);
+    const { mutate, isPending } = useUpdatePlayerMutation(player.id);
+
 
     const [values, setValues] = useState({
         firstName: player.firstName,
@@ -25,15 +26,6 @@ export const EditPlayer = ({ player }: EditPlayerProps) => {
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
 
-        if (!values.firstName.trim() || !values.lastName.trim()) {
-            alert('Please fill in all fields before sacing.');
-            setValues({
-                firstName: player.firstName,
-                lastName: player.lastName
-            });
-            return;
-        }
-
         mutate({
             firstName: values.firstName,
             lastName: values.lastName
@@ -44,7 +36,7 @@ export const EditPlayer = ({ player }: EditPlayerProps) => {
 
     return (
         <div>
-        <PlayerForm handleSubmit={handleSubmit} handleChange={handleChange} values={values} isPending={ isPending }/>
+            <PlayerForm handleSubmit={handleSubmit} handleChange={handleChange} values={values} isPending={isPending}/>
         </div>
     );
 };

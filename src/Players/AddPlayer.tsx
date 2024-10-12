@@ -1,9 +1,11 @@
 import { useCreatePlayerMutation } from "../queries/useCreatePlayerMutation.ts";
 import { PlayerForm } from "../Forms/PlayerForm.tsx";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { useGetPlayers } from "../queries/useGetPlayersQuery.ts";
 
 export const AddPlayer = () => {
     const { mutate, isPending } = useCreatePlayerMutation();
+    const { data: players } = useGetPlayers();
 
     const [values, setValues] = useState({
         firstName: '',
@@ -20,30 +22,29 @@ export const AddPlayer = () => {
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
 
-        if (!values.firstName.trim() || !values.lastName.trim()) {
-            alert('Please fill in all fields before saving.');
-            setValues({
-                firstName: '',
-                lastName: ''
-            });
-            return;
-        }
-
         mutate({
             firstName: values.firstName,
             lastName: values.lastName
-        });
-
-        setValues({
-            firstName: '',
-            lastName: ''
+        }, {
+            onSuccess: () => {
+                setValues({
+                    firstName: '',
+                    lastName: ''
+                });
+            }
         });
     };
 
     return (
         <div>
             <h2>Add new player</h2>
-            <PlayerForm handleSubmit={handleSubmit} handleChange={handleChange} values={values} isPending={isPending}/>
+            <PlayerForm
+                handleSubmit={handleSubmit}
+                handleChange={handleChange}
+                values={values}
+                isPending={isPending}
+                existingPlayers={players || []}
+            />
         </div>
     );
 };
