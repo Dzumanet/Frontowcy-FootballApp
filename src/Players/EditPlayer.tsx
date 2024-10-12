@@ -1,0 +1,50 @@
+import { PlayerEntity } from "../types";
+import { useUpdatePlayerMutation } from "../queries/useUpdatePlayerMutation.ts";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { PlayerForm } from "../Forms/PlayerForm.tsx";
+
+type EditPlayerProps = {
+    player: PlayerEntity;
+}
+
+export const EditPlayer = ({ player }: EditPlayerProps) => {
+    const {mutate, isPending} = useUpdatePlayerMutation(player.id);
+
+    const [values, setValues] = useState({
+        firstName: player.firstName,
+        lastName: player.lastName
+    });
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setValues(prevValues => ({
+            ...prevValues,
+            [name]: value
+        }));
+    };
+    const handleSubmit = (e: FormEvent) => {
+        e.preventDefault();
+
+        if (!values.firstName.trim() || !values.lastName.trim()) {
+            alert('Please fill in all fields before sacing.');
+            setValues({
+                firstName: player.firstName,
+                lastName: player.lastName
+            });
+            return;
+        }
+
+        mutate({
+            firstName: values.firstName,
+            lastName: values.lastName
+        });
+
+    };
+
+
+    return (
+        <div>
+        <PlayerForm handleSubmit={handleSubmit} handleChange={handleChange} values={values} isPending={ isPending }/>
+        </div>
+    );
+};
