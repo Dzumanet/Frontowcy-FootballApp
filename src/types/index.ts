@@ -31,3 +31,10 @@ export type PlayerDto = Omit<PlayerEntity, "id" | "teamId">
 export type TeamDto = Omit<TeamEntity, "id">
 
 export type GameDto = Omit<GameEntity, "id">
+
+//Errors
+export type PlayerValidationErrors = {
+    firstName: string;
+    lastName: string;
+    playerExists: string;
+}

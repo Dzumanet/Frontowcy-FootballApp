@@ -9,7 +9,8 @@ export const useGetPlayers = () => {
         queryKey: ['players'],
         queryFn: async () => {
             return apiGet<PlayerEntity[]>('players');
-        }
+        },
+        refetchOnMount: false,
     })
     return {
         data,
