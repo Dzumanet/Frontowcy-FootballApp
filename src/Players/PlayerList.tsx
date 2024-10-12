@@ -23,7 +23,7 @@ export const PlayerList = () => {
 
     const toggleAddPlayer = () => {
         setAddPlayer(prevAddPlayer => !prevAddPlayer);
-    }
+    };
 
     return (
         <div>
@@ -40,9 +40,8 @@ export const PlayerList = () => {
                 {data?.map(player => <OnePlayer player={player} key={player.id}/>)}
                 </tbody>
             </StyledTable>
-            <button onClick={toggleAddPlayer}>{addPlayer  ? 'Close' : 'Add Player'}</button>
-            {addPlayer  ? <AddPlayer/> : undefined}
-
+            <button onClick={toggleAddPlayer}>{addPlayer ? 'Close' : 'Add Player'}</button>
+            {addPlayer ? <AddPlayer/> : undefined}
         </div>
     );
 
