@@ -1,11 +1,11 @@
 import { useCreatePlayerMutation } from "../queries/useCreatePlayerMutation.ts";
 import { PlayerForm } from "../Forms/PlayerForm.tsx";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { useGetPlayers } from "../queries/useGetPlayersQuery.ts";
+import { useGetPlayersQuery } from "../queries/useGetPlayersQuery.ts";
 
 export const AddPlayer = () => {
     const { mutate, isPending } = useCreatePlayerMutation();
-    const { data: players } = useGetPlayers();
+    const { data: players } = useGetPlayersQuery();
 
     const [values, setValues] = useState({
         firstName: '',
