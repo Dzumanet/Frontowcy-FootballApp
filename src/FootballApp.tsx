@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { PlayerList } from "./Players/PlayerList.tsx";
+import { TeamsList } from "./Teams/TeamsList.tsx";
 
 export const FootballApp = () => {
     const [mode, setMode] = useState<'playerList' | 'teamList' | 'gameList' | 'none'>('none');
@@ -28,7 +29,7 @@ export const FootballApp = () => {
             </div>
             <div>
                 {mode === 'playerList' ? <PlayerList/> : undefined}
-                {mode === 'teamList' ? <h2>Team List</h2> : undefined}
+                {mode === 'teamList' ? <TeamsList/> : undefined}
                 {mode === 'gameList' ? <h2>Game List</h2> : undefined}
             </div>
         </>

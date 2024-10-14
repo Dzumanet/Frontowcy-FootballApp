@@ -1,4 +1,4 @@
-import { useGetPlayers } from "../queries/useGetPlayersQuery.ts";
+import { useGetPlayersQuery } from "../queries/useGetPlayersQuery.ts";
 import { OnePlayer } from "./OnePlayer.tsx";
 import styled from "styled-components";
 import { AddPlayer } from "./AddPlayer.tsx";
@@ -15,7 +15,7 @@ const StyledTable = styled.table`
 `;
 
 export const PlayerList = () => {
-    const { data, isLoading, error } = useGetPlayers();
+    const { data, isLoading, error } = useGetPlayersQuery();
     const [addPlayer, setAddPlayer] = useState(false);
 
     if (isLoading) return <p>Loading players list...</p>;
