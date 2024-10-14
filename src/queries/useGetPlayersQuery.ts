@@ -2,7 +2,7 @@ import { useApi } from "../hooks/useApi.ts";
 import { useQuery } from "@tanstack/react-query";
 import { PlayerEntity } from "../types";
 
-export const useGetPlayers = () => {
+export const useGetPlayersQuery = () => {
     const { apiGet } = useApi();
 
     const {data, isLoading, error} = useQuery({
