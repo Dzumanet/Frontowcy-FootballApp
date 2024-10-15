@@ -1,5 +1,6 @@
-import { ChangeEvent, FormEvent } from "react";
-import { PlayerEntity, TeamDto } from "../types";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { PlayerEntity, TeamDto, TeamValidationErrors } from "../types";
+import { validateTeam } from "../utils/validateTeam.ts";
 
 type TeamFormProps = {
     handleSubmit: (e: FormEvent) => void;
@@ -12,6 +13,7 @@ type TeamFormProps = {
 
     values: TeamDto;
     isPending: boolean;
+    existingTeam?: TeamDto[];
 }
 
 export const TeamForm = ({
@@ -23,13 +25,34 @@ export const TeamForm = ({
                              addedPlayers,
                              handleChange,
                              values,
-                             isPending
+                             isPending,
+                             existingTeam
                          }: TeamFormProps) => {
 
+    const [errors, setErrors] = useState<TeamValidationErrors>({
+        teamName: '',
+        establishedYear: '',
+        location: '',
+        teamExists: ''
+    });
+
+    const onSubmit = (e: FormEvent) => {
+        e.preventDefault();
+        const validationErrors = validateTeam(values, existingTeam || []);
+        setErrors(validationErrors);
+
+        if (!validationErrors.teamName && !validationErrors.establishedYear && !validationErrors.location && !validationErrors.teamExists) {
+            handleSubmit(e);
+        }
+    };
+    console.log(errors);
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={onSubmit}>
+            {errors.teamExists && <p>{errors.teamExists}</p>}
             <label htmlFor="teamName">Team Name</label>
+            {errors.teamName && <p>{errors.teamName}</p>}
+
             <input
                 type="text"
                 id="teamName"
@@ -40,6 +63,7 @@ export const TeamForm = ({
             />
 
             <label htmlFor="location">Location</label>
+            {errors.location && <p>{errors.location}</p>}
             <input
                 type="text"
                 id="location"
@@ -50,6 +74,7 @@ export const TeamForm = ({
             />
 
             <label htmlFor="establishedYear">Established Year</label>
+            {errors.establishedYear && <p>{errors.establishedYear}</p>}
             <input
                 type="number"
                 id="establishedYear"

@@ -4,11 +4,13 @@ import { PlayerEntity, TeamDto, TeamEntity } from "../types";
 import { useCreateTeamMutation } from "../queries/useCreateTeamMutation.ts";
 import { useGetPlayersQuery } from "../queries/useGetPlayersQuery.ts";
 import { useUpdateMultiplePlayersTeamMutation } from "../queries/useUpdateMultiplePlayersTeamMutation.ts";
+import { useGetTeamsQuery } from "../queries/useGetTeamsQuery.ts";
 
 export const AddTeam = () => {
     const { mutate: createTeam, isPending } = useCreateTeamMutation();
     const { mutate: updatePlayersTeam } = useUpdateMultiplePlayersTeamMutation();
     const { data: players } = useGetPlayersQuery();
+    const { data: team } = useGetTeamsQuery();
 
     const [selectedPlayerId, setSelectedPlayerId] = useState<string>('');
     const [addedPlayers, setAddedPlayers] = useState<PlayerEntity[]>([]);
@@ -69,6 +71,7 @@ export const AddTeam = () => {
                 addedPlayers={addedPlayers}
                 isPending={isPending}
                 availablePlayers={players}
+                existingTeam={team}
             />
         </div>
     );

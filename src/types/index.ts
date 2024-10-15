@@ -38,3 +38,9 @@ export type PlayerValidationErrors = {
     lastName: string;
     playerExists: string;
 }
+export type TeamValidationErrors = {
+    teamName: string;
+    establishedYear: string;
+    location: string;
+    teamExists: string;
+}
