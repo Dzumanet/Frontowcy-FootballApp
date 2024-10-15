@@ -1,16 +1,10 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { PlayerEntity, TeamDto, TeamValidationErrors } from "../types";
+import { TeamDto, TeamValidationErrors } from "../types";
 import { validateTeam } from "../utils/validateTeam.ts";
 
 type TeamFormProps = {
     handleSubmit: (e: FormEvent) => void;
-    handleSelectChange: (e: ChangeEvent<HTMLSelectElement>) => void;
     handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
-    handleAddPlayer: () => void;
-    selectedPlayerId: string;
-    addedPlayers: PlayerEntity[]; // Lista graczy już dodanych do drużyny
-    availablePlayers: PlayerEntity[] | undefined; // Lista dostępnych graczy
-
     values: TeamDto;
     isPending: boolean;
     existingTeam?: TeamDto[];
@@ -18,11 +12,6 @@ type TeamFormProps = {
 
 export const TeamForm = ({
                              handleSubmit,
-                             handleAddPlayer,
-                             availablePlayers,
-                             selectedPlayerId,
-                             handleSelectChange,
-                             addedPlayers,
                              handleChange,
                              values,
                              isPending,
@@ -83,38 +72,7 @@ export const TeamForm = ({
                 onChange={handleChange}
                 required
             />
-
-            {/* Lista rozwijana do wyboru gracza */}
-            <label htmlFor="teamPlayers">Select Player to Add</label>
-            <select
-                name="teamPlayers"
-                id="teamPlayers"
-                value={selectedPlayerId}
-                onChange={handleSelectChange}
-            >
-                <option value="" disabled>Select player</option>
-                {availablePlayers
-                    ?.filter(player => !player.teamId)
-                    .map(player => (
-                    <option key={player.id} value={player.id}>
-                        {player.firstName}
-                    </option>
-                ))}
-            </select>
-            <button type="button" onClick={handleAddPlayer}>Add Player</button>
-
-
-            <h3>The Players will be added to the team:</h3>
-            <ul>
-                {addedPlayers.map(player => (
-                    <li key={player.id}>
-                        {player.firstName} {player.lastName}
-                    </li>
-                ))}
-            </ul>
-
             <button type="submit" disabled={isPending}>Save Team</button>
         </form>
-
     );
 };
