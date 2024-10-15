@@ -3,7 +3,7 @@ export type PlayerEntity = {
     id: string;
     firstName: string;
     lastName: string;
-    teamId: string;
+    teamId: string | null;
 }
 
 export type TeamEntity = {

@@ -1,6 +1,7 @@
 import { TeamEntity } from "../types";
 import { useState } from "react";
 import { useGetPlayersQuery } from "../queries/useGetPlayersQuery.ts";
+import { DeleteTeamConfirmation } from "./DeleteTeamConfirmation.tsx";
 
 type TeamInfoProps = {
     team: TeamEntity;
@@ -33,7 +34,7 @@ export const TeamInfo = ({ team }: TeamInfoProps) => {
             <p>{team.teamName}</p>
             <p>{team.location}</p>
             <ul>
-                <p>lista graczy nalezacej do druzyny</p>
+                <p>Players in the team:</p>
                 {teamPlayers && teamPlayers.length > 0 ? (
                     teamPlayers.map(player => (
                         <li key={player.id}>
@@ -41,13 +42,14 @@ export const TeamInfo = ({ team }: TeamInfoProps) => {
                         </li>
                     ))
                 ) : (
-                    <p>No players in this team.</p>
+                    <p>No players in the team.</p>
                 )}
             </ul>
             <button onClick={toggleEditMode}>{mode === 'edit' ? 'Cancel' : 'Edit'}</button>
             <button onClick={toggleDeleteMode}>{mode === 'delete' ? 'Cancel' : 'Delete'}</button>
             <div>
                 {mode === 'edit' ? <p>Edit Team</p> : undefined}
+                {mode === 'delete' ? <DeleteTeamConfirmation onCancel={toggleDeleteMode} team={team}/> : undefined}
 
             </div>
         </td>

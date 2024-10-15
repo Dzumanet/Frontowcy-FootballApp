@@ -21,9 +21,7 @@ export const OneTeam = ({ team, isActive, toggleShowTeamInfo }: OneTeamProps) =>
             </tr>
             {isActive && (
                 <tr>
-                    <td>
-                        <TeamInfo team={team}/>
-                    </td>
+                    <TeamInfo team={team}/>
                 </tr>
             )}
         </>
