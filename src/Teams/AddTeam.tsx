@@ -1,38 +1,25 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { TeamForm } from "../Forms/TeamForm.tsx";
-import { PlayerEntity, TeamDto, TeamEntity } from "../types";
+import { TeamDto, TeamEntity } from "../types";
 import { useCreateTeamMutation } from "../queries/useCreateTeamMutation.ts";
 import { useGetPlayersQuery } from "../queries/useGetPlayersQuery.ts";
 import { useUpdateMultiplePlayersTeamMutation } from "../queries/useUpdateMultiplePlayersTeamMutation.ts";
 import { useGetTeamsQuery } from "../queries/useGetTeamsQuery.ts";
 import { AddPlayersToTeam } from "./AddPlayersToTeam.tsx";
+import { usePlayerSelection } from "../hooks/usePlayerSelection.ts";
 
 export const AddTeam = () => {
     const { mutate: createTeam, isPending } = useCreateTeamMutation();
     const { mutate: updatePlayersTeam } = useUpdateMultiplePlayersTeamMutation();
     const { data: players } = useGetPlayersQuery();
     const { data: teams } = useGetTeamsQuery();
+    const { selectedPlayerId, addedPlayers, handleSelectChange, handleAddPlayer } = usePlayerSelection(players || []);
 
-    const [selectedPlayerId, setSelectedPlayerId] = useState<string>('');
-    const [addedPlayers, setAddedPlayers] = useState<PlayerEntity[]>([]);
     const [values, setValues] = useState<TeamDto>({
         teamName: '',
         location: '',
         establishedYear: 2024,
     });
-
-    const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
-        setSelectedPlayerId(e.target.value);
-    };
-
-    const handleAddPlayer = () => {
-        if (!selectedPlayerId) return;
-
-        const playerToAdd = players?.find(player => player.id === selectedPlayerId);
-        if (playerToAdd && !addedPlayers.some(player => player.id === playerToAdd.id)) {
-            setAddedPlayers(prevPlayers => [...prevPlayers, playerToAdd]);
-        }
-    };
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
