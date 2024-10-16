@@ -1,6 +1,8 @@
 import { TeamEntity } from "../types";
 import { useState } from "react";
-import { useGetPlayersQuery } from "../queries/useGetPlayersQuery.ts";
+import { DeleteTeamConfirmation } from "./DeleteTeamConfirmation.tsx";
+import { EditTeam } from "./EditTeam.tsx";
+import { PlayersInTeam } from "./PlayersInTeam.tsx";
 
 type TeamInfoProps = {
     team: TeamEntity;
@@ -8,11 +10,6 @@ type TeamInfoProps = {
 
 export const TeamInfo = ({ team }: TeamInfoProps) => {
     const [mode, setMode] = useState<'edit' | 'delete' | 'none'>('none');
-    const { data: players } = useGetPlayersQuery();
-
-    const teamPlayers = players?.filter(player => player.teamId === team.id);
-
-    console.log('teamPlayers', teamPlayers);
 
     const toggleEditMode = () => {
         setMode(prevMode => prevMode === "edit" ? "none" : "edit");
@@ -26,29 +23,20 @@ export const TeamInfo = ({ team }: TeamInfoProps) => {
         <td style={{
             position: 'absolute',
             top: 0,
-            left: "100%",
+            left: "120%",
             width: 400,
         }}>
-            <h2>team info</h2>
-            <p>{team.teamName}</p>
-            <p>{team.location}</p>
-            <ul>
-                <p>lista graczy nalezacej do druzyny</p>
-                {teamPlayers && teamPlayers.length > 0 ? (
-                    teamPlayers.map(player => (
-                        <li key={player.id}>
-                            {player.firstName} {player.lastName}
-                        </li>
-                    ))
-                ) : (
-                    <p>No players in this team.</p>
-                )}
-            </ul>
+            <h2>{team.teamName}</h2>
+            <p>Location: {team.location}</p>
+            <p>Established Year: {team.establishedYear}</p>
+
+            <PlayersInTeam teamId={team.id} isEditMode={mode === 'edit'}/>
+
             <button onClick={toggleEditMode}>{mode === 'edit' ? 'Cancel' : 'Edit'}</button>
             <button onClick={toggleDeleteMode}>{mode === 'delete' ? 'Cancel' : 'Delete'}</button>
             <div>
-                {mode === 'edit' ? <p>Edit Team</p> : undefined}
-
+                {mode === 'edit' ? <EditTeam team={team}/> : undefined}
+                {mode === 'delete' ? <DeleteTeamConfirmation onCancel={toggleDeleteMode} team={team}/> : undefined}
             </div>
         </td>
     );

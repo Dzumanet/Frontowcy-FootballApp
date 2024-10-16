@@ -3,7 +3,7 @@ export type PlayerEntity = {
     id: string;
     firstName: string;
     lastName: string;
-    teamId: string;
+    teamId: string | null;
 }
 
 export type TeamEntity = {
@@ -37,4 +37,10 @@ export type PlayerValidationErrors = {
     firstName: string;
     lastName: string;
     playerExists: string;
+}
+export type TeamValidationErrors = {
+    teamName: string;
+    establishedYear: string;
+    location: string;
+    teamExists: string;
 }

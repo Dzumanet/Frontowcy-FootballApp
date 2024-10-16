@@ -1,30 +1,42 @@
+import { useUpdateTeamMutation } from "../queries/useUpdateTeamMutation.ts";
+import { TeamDto, TeamEntity } from "../types";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { TeamForm } from "../Forms/TeamForm.tsx";
-import { TeamDto, TeamEntity } from "../types";
-import { useCreateTeamMutation } from "../queries/useCreateTeamMutation.ts";
-import { useGetPlayersQuery } from "../queries/useGetPlayersQuery.ts";
 import { useUpdateMultiplePlayersTeamMutation } from "../queries/useUpdateMultiplePlayersTeamMutation.ts";
+import { useGetPlayersQuery } from "../queries/useGetPlayersQuery.ts";
 import { useGetTeamsQuery } from "../queries/useGetTeamsQuery.ts";
 import { AddPlayersToTeam } from "./AddPlayersToTeam.tsx";
 import { usePlayerSelection } from "../hooks/usePlayerSelection.ts";
 
-export const AddTeam = () => {
-    const { mutate: createTeam, isPending } = useCreateTeamMutation();
+type EditTeamProps = {
+    team: TeamEntity;
+}
+
+export const EditTeam = ({ team }: EditTeamProps) => {
+    const { mutate: updateTeam, isPending } = useUpdateTeamMutation(team.id);
     const { mutate: updatePlayersTeam } = useUpdateMultiplePlayersTeamMutation();
     const { data: players } = useGetPlayersQuery();
     const { data: teams } = useGetTeamsQuery();
-    const { selectedPlayerId, addedPlayers, handleSelectChange, handleAddPlayer } = usePlayerSelection(players || []);
+    const {
+        selectedPlayerId,
+        setSelectedPlayerId,
+        addedPlayers,
+        setAddedPlayers,
+        handleSelectChange,
+        handleAddPlayer,
+
+    } = usePlayerSelection(players || []);
 
     const [values, setValues] = useState<TeamDto>({
-        teamName: '',
-        location: '',
-        establishedYear: 2024,
+        teamName: team.teamName,
+        location: team.location,
+        establishedYear: team.establishedYear,
     });
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
 
-        createTeam({
+        updateTeam({
             teamName: values.teamName,
             location: values.location,
             establishedYear: values.establishedYear
@@ -35,9 +47,12 @@ export const AddTeam = () => {
                     playerIds,
                     teamId: newTeam.id
                 });
+                setAddedPlayers([]);
+                setSelectedPlayerId('');
             }
         });
     };
+
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value, type } = e.target;
         setValues(prevValues => ({
@@ -48,9 +63,11 @@ export const AddTeam = () => {
 
     return (
         <div>
-            <h2>Add New Team</h2>
-            <TeamForm handleSubmit={handleSubmit} handleChange={handleChange} values={values} isPending={isPending}
-                      existingTeam={teams}/>
+            <h2>Edit Team</h2>
+            <TeamForm
+                handleSubmit={handleSubmit} handleChange={handleChange} values={values} isPending={isPending}
+                existingTeam={teams} editTeam={team}
+            />
             <AddPlayersToTeam availablePlayers={players || []} addedPlayers={addedPlayers}
                               handleAddPlayer={handleAddPlayer} handleSelectChange={handleSelectChange}
                               selectedPlayerId={selectedPlayerId}/>

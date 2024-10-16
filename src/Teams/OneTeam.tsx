@@ -1,18 +1,13 @@
 import { TeamEntity } from "../types";
-import { useState } from "react";
 import { TeamInfo } from "./TeamInfo.tsx";
-
 
 type OneTeamProps = {
     team: TeamEntity;
+    isActive: boolean;
+    toggleShowTeamInfo: () => void;
 }
 
-export const OneTeam = ({ team }: OneTeamProps) => {
-    const [mode, setMode] = useState<'showInfo' | 'delete' | 'none'>('none');
-
-    const toggleShowTeamInfo = () => {
-        setMode(prevMode => prevMode === "showInfo" ? "none" : "showInfo");
-    };
+export const OneTeam = ({ team, isActive, toggleShowTeamInfo }: OneTeamProps) => {
 
     return (<>
             <tr>
@@ -21,12 +16,14 @@ export const OneTeam = ({ team }: OneTeamProps) => {
                 <td>{team.location}</td>
                 <td>{team.establishedYear}</td>
                 <td>
-                    <button onClick={toggleShowTeamInfo}>{mode === 'showInfo' ? 'Cancel' : 'showInfo'}</button>
+                    <button onClick={toggleShowTeamInfo}>{isActive ? 'Cancel' : 'Show Info'}</button>
                 </td>
             </tr>
-            <tr>
-                {mode === 'showInfo' ? <TeamInfo team={team}/> : undefined}
-            </tr>
+            {isActive && (
+                <tr>
+                    <TeamInfo team={team}/>
+                </tr>
+            )}
         </>
     );
 };
