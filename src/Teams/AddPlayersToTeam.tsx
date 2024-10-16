@@ -9,7 +9,6 @@ type AddPlayersToTeamProps = {
     selectedPlayerId: string;
 }
 
-
 export const AddPlayersToTeam = ({
                                      availablePlayers,
                                      addedPlayers,
@@ -17,7 +16,6 @@ export const AddPlayersToTeam = ({
                                      handleSelectChange,
                                      selectedPlayerId
                                  }: AddPlayersToTeamProps) => {
-
 
     return (
         <>

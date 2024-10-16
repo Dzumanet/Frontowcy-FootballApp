@@ -1,6 +1,7 @@
 import { TeamEntity } from "../types";
 import { useDeleteTeamMutation } from "../queries/useDeleteTeamMutation.ts";
 import { useGetPlayersQuery } from "../queries/useGetPlayersQuery.ts";
+import { useUpdateMultiplePlayersTeamMutation } from "../queries/useUpdateMultiplePlayersTeamMutation.ts";
 
 type DeletePlayerConfirmationProps = {
     onCancel: () => void;
@@ -9,14 +10,25 @@ type DeletePlayerConfirmationProps = {
 
 export const DeleteTeamConfirmation = ({ onCancel, team }: DeletePlayerConfirmationProps) => {
     const { mutate, isPending } = useDeleteTeamMutation(team.id);
+    const { mutate: updatePlayersTeam } = useUpdateMultiplePlayersTeamMutation();
     const { data: players } = useGetPlayersQuery();
-
 
     const teamPlayers = players?.filter(player => player.teamId === team.id);
 
-
     const handleDelete = () => {
-        mutate();
+        mutate(undefined, {
+            onSuccess: () => {
+                if (teamPlayers) {
+                    const playerIds = teamPlayers.map(player => player.id);
+                    if (playerIds.length > 0) {
+                        updatePlayersTeam({
+                            playerIds,
+                            teamId: null
+                        });
+                    }
+                }
+            }
+        });
     };
 
     if (isPending) return <p>Loading...</p>;
@@ -38,11 +50,9 @@ export const DeleteTeamConfirmation = ({ onCancel, team }: DeletePlayerConfirmat
                     </>
                 ) : undefined}
 
-
                 <button onClick={handleDelete}>Delete</button>
                 <button onClick={onCancel}>Cancel</button>
             </div>
-
         </div>
     );
 

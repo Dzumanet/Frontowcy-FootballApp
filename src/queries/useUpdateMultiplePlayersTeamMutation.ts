@@ -8,7 +8,7 @@ export const useUpdateMultiplePlayersTeamMutation = () => {
 
     const { mutate, isPending } = useMutation({
         mutationKey: ['players', 'updateMultiplePlayers'],
-        mutationFn: async ({ playerIds, teamId }: { playerIds: string[], teamId: string }) => {
+        mutationFn: async ({ playerIds, teamId }: { playerIds: string[], teamId: string | null }) => {
             const updatePromises = playerIds.map(playerId =>
                 apiPatch<PlayerEntity, Partial<PlayerEntity>>(`players/${playerId}`, { teamId })
             );

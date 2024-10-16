@@ -1,13 +1,11 @@
-import { TeamDto, TeamValidationErrors } from "../types";
+import { TeamDto, TeamEntity, TeamValidationErrors } from "../types";
 
-export const validateTeam = (values: TeamDto, existingTeam?: TeamDto[]) => {
+export const validateTeam = (values: TeamDto, existingTeam?: TeamDto[], currentTeam?: TeamEntity) => {
     const errors: TeamValidationErrors = {
         teamName: '',
         establishedYear: '',
         location: '',
         teamExists: ''
-
-
     };
 
     if (!values.teamName.trim()) {
@@ -22,19 +20,18 @@ export const validateTeam = (values: TeamDto, existingTeam?: TeamDto[]) => {
     }
     if (!values.location.trim()) {
         errors.location = 'Location is required.';
-    }else if (values.location.length < 2) {
+    } else if (values.location.length < 2) {
         errors.location = 'Team name must be at least 2 characters long.';
     }
 
 
-    if (existingTeam) {
+    if (existingTeam && currentTeam?.teamName !== values.teamName) {
         const teamExists = existingTeam.some(
             team => team.teamName === values.teamName
         );
 
         if (teamExists) {
             errors.teamExists = 'A team with this name already exists.';
-
         }
     }
 

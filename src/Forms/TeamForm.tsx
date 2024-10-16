@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { TeamDto, TeamValidationErrors } from "../types";
+import { TeamDto, TeamEntity, TeamValidationErrors } from "../types";
 import { validateTeam } from "../utils/validateTeam.ts";
 
 type TeamFormProps = {
@@ -8,6 +8,7 @@ type TeamFormProps = {
     values: TeamDto;
     isPending: boolean;
     existingTeam?: TeamDto[];
+    editTeam?: TeamEntity;
 }
 
 export const TeamForm = ({
@@ -15,7 +16,8 @@ export const TeamForm = ({
                              handleChange,
                              values,
                              isPending,
-                             existingTeam
+                             existingTeam,
+                             editTeam,
                          }: TeamFormProps) => {
 
     const [errors, setErrors] = useState<TeamValidationErrors>({
@@ -27,7 +29,7 @@ export const TeamForm = ({
 
     const onSubmit = (e: FormEvent) => {
         e.preventDefault();
-        const validationErrors = validateTeam(values, existingTeam || []);
+        const validationErrors = validateTeam(values, existingTeam || [], editTeam);
         setErrors(validationErrors);
 
         if (!validationErrors.teamName && !validationErrors.establishedYear && !validationErrors.location && !validationErrors.teamExists) {
