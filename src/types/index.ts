@@ -18,10 +18,11 @@ export type GameEntity = {
     gameTitle: string;
     gameDate: string;
     venue: string;
-    duration: string;
-    result: string;
-    teamAId: string;
-    teamBId: string;
+    duration: number;
+    resultTeamA: number;
+    resultTeamB: number;
+    teamAId: string | null;
+    teamBId: string | null;
 }
 
 //Dto
