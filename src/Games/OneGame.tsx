@@ -25,7 +25,7 @@ export const OneGame = ({ game, isActive, toggleShowGameInfo }: OneGameProps) =>
             </tr>
             {isActive && (
                 <tr>
-                    <EditGame/>
+                    <EditGame game={game} />
                 </tr>
 
             )}

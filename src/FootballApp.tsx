@@ -24,7 +24,7 @@ export const FootballApp = () => {
                 <h1>Football App</h1>
                 <button onClick={toggleShowPlayer}>{mode === 'playerList' ? 'Hide Players' : 'Show players'}</button>
                 <button onClick={toggleShowTeams}>{mode === 'teamList' ? 'Hide Teams' : 'Show Teams'}</button>
-                <button onClick={toggleShowGame}>{mode === 'gameList' ? 'Hide Teams' : 'Show Games'}</button>
+                <button onClick={toggleShowGame}>{mode === 'gameList' ? 'Hide Games' : 'Show Games'}</button>
 
 
             </div>

@@ -1,31 +1,32 @@
-import { ChangeEvent, FormEvent, useState } from "react";
-import { GameDto } from "../types";
-import { useCreateGameMutation } from "../queries/useCreateGameMutation.ts";
-import { GameForm } from "../Forms/GameForm.tsx";
 import { useGetTeamsQuery } from "../queries/useGetTeamsQuery.ts";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { GameDto, GameEntity } from "../types";
+import { GameForm } from "../Forms/GameForm.tsx";
+import { useUpdateGameMutation } from "../queries/useUpdateGameMutation.ts";
 
-export const AddGame = () => {
-    const { mutate: createGame, isPending } = useCreateGameMutation();
-    const { data: teams, isLoading, error } = useGetTeamsQuery();
+type EditGameProps = {
+    game: GameEntity;
+}
 
-    if (isLoading) return <p>Loading Team list...</p>;
-    if (error) return <p>{error.message}</p>;
+export const EditGame = ({ game }: EditGameProps) => {
+    const { mutate: updateGame, isPending } = useUpdateGameMutation(game.id);
+    const { data: teams } = useGetTeamsQuery();
 
     const [values, setValues] = useState<GameDto>({
-        gameTitle: '',
-        gameDate: '',
-        venue: '',
-        duration: 90,
-        resultTeamA: 0,
-        resultTeamB: 0,
-        teamAId: null,
-        teamBId: null
+        gameTitle: game.gameTitle,
+        gameDate: game.gameDate,
+        venue: game.venue,
+        duration: game.duration,
+        resultTeamA: game.resultTeamA,
+        resultTeamB: game.resultTeamB,
+        teamAId: game.teamAId,
+        teamBId: game.teamBId
     });
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
 
-        createGame({
+        updateGame({
             gameTitle: values.gameTitle,
             gameDate: values.gameDate,
             venue: values.venue,
@@ -35,16 +36,6 @@ export const AddGame = () => {
             teamAId: values.teamAId,
             teamBId: values.teamBId
         });
-        setValues({
-            gameTitle: '',
-            gameDate: '',
-            venue: '',
-            duration: 90,
-            resultTeamA: 0,
-            resultTeamB: 0,
-            teamAId: null,
-            teamBId: null
-        })
     };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -59,11 +50,11 @@ export const AddGame = () => {
     const filterOptions2 = teams?.filter(option => option.id !== values.teamAId);
 
     return (
-        <div>
+        <td>
             <h2>Add Game</h2>
             <GameForm handleSubmit={handleSubmit} handleChange={handleChange} value={values} isPending={isPending}
                       filterOptions1={filterOptions1} filterOptions2={filterOptions2}/>
 
-        </div>
+        </td>
     );
 };
