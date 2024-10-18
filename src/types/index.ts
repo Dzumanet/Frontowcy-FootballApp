@@ -45,3 +45,15 @@ export type TeamValidationErrors = {
     location: string;
     teamExists: string;
 }
+
+export type GameValidationErrors = {
+    gameTitle: string,
+    gameDate: string,
+    venue: string,
+    duration: string,
+    resultTeamA: string,
+    resultTeamB: string,
+    teamAId: string,
+    teamBId: string,
+    existingGame: string
+}

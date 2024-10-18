@@ -46,7 +46,7 @@ export const GamesList = () => {
                 )}
                 </tbody>
             </table>
-            <button onClick={toggleAddGame}>{addGame ? 'Close' : 'Add Team'}</button>
+            <button onClick={toggleAddGame}>{addGame ? 'Close' : 'Add Game'}</button>
             {addGame ? <AddGame/> : undefined}
         </div>
     );
