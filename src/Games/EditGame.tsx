@@ -3,6 +3,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { GameDto, GameEntity } from "../types";
 import { GameForm } from "../Forms/GameForm.tsx";
 import { useUpdateGameMutation } from "../queries/useUpdateGameMutation.ts";
+import { DeleteGameConfirmation } from "./DeleteGameConfirmation.tsx";
 
 type EditGameProps = {
     game: GameEntity;
@@ -11,6 +12,8 @@ type EditGameProps = {
 export const EditGame = ({ game }: EditGameProps) => {
     const { mutate: updateGame, isPending } = useUpdateGameMutation(game.id);
     const { data: teams } = useGetTeamsQuery();
+    const [mode, setMode] = useState<'delete' | 'none'>('none');
+
 
     const [values, setValues] = useState<GameDto>({
         gameTitle: game.gameTitle,
@@ -37,6 +40,9 @@ export const EditGame = ({ game }: EditGameProps) => {
             teamBId: values.teamBId
         });
     };
+    const toggleDeleteMode = () => {
+        setMode(prevMode => prevMode === "delete" ? "none" : "delete");
+    };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target;
@@ -52,6 +58,9 @@ export const EditGame = ({ game }: EditGameProps) => {
     return (
         <td>
             <h2>Add Game</h2>
+            <button onClick={toggleDeleteMode}>{mode === 'delete' ? 'Cancel' : 'Delete'}</button>
+
+            {mode === 'delete' ? <DeleteGameConfirmation game={game} /> : undefined}
             <GameForm handleSubmit={handleSubmit} handleChange={handleChange} value={values} isPending={isPending}
                       filterOptions1={filterOptions1} filterOptions2={filterOptions2}/>
 

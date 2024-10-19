@@ -2,7 +2,7 @@ import { useApi } from "../hooks/useApi.ts";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { GameEntity } from "../types";
 
-export const useDeleteTeamMutation = (gameId: string) => {
+export const useDeleteGameMutation = (gameId: string) => {
     const { apiDelete } = useApi();
     const queryClient = useQueryClient();
 

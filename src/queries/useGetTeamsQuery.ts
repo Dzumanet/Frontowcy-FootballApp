@@ -5,7 +5,7 @@ import { TeamEntity } from "../types";
 export const useGetTeamsQuery = () => {
     const { apiGet } = useApi();
 
-    const { data, isLoading, error } = useQuery({
+    const { data, isFetching, error } = useQuery({
         queryKey: ['teams'],
         queryFn: async () => {
             return apiGet<TeamEntity[]>('teams');
@@ -14,7 +14,7 @@ export const useGetTeamsQuery = () => {
     });
     return {
         data,
-        isLoading,
+        isFetching,
         error,
     };
 };

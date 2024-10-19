@@ -6,10 +6,10 @@ import { useGetTeamsQuery } from "../queries/useGetTeamsQuery.ts";
 
 export const AddGame = () => {
     const { mutate: createGame, isPending } = useCreateGameMutation();
-    const { data: teams, isLoading, error } = useGetTeamsQuery();
+    const { data: teams, isFetching, error } = useGetTeamsQuery();
 
-    if (isLoading) return <p>Loading Team list...</p>;
-    if (error) return <p>{error.message}</p>;
+
+
 
     const [values, setValues] = useState<GameDto>({
         gameTitle: '',
@@ -21,6 +21,9 @@ export const AddGame = () => {
         teamAId: null,
         teamBId: null
     });
+
+    if (isFetching) return <p>Loading Team list...</p>;
+    if (error) return <p>{error.message}</p>;
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
