@@ -19,23 +19,28 @@ export const OneGame = ({ game, isActive, toggleShowGameInfo }: OneGameProps) =>
     if (error) return <p>{error.message}</p>;
 
     return (<>
-            <tr>
-                <td>{game.id}</td>
-                <td>{game.gameTitle}</td>
-                <td>{game.gameDate}</td>
-                <td>{game.venue}</td>
-                <td>{game.duration} min</td>
-                <td>{teamA?.teamName}</td>
-                <td>{teamB?.teamName}</td>
-                <td>{game.resultTeamA} : {game.resultTeamB}</td>
-                <td>
+            <ul style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                width: '800px'
+
+            }}>
+                <li>{game.id}</li>
+                <li>{game.gameTitle}</li>
+                <li>{game.gameDate}</li>
+                <li>{game.venue}</li>
+                <li>{game.duration} min</li>
+                <li>{teamA?.teamName}</li>
+                <li>{teamB?.teamName}</li>
+                <li>{game.resultTeamA} : {game.resultTeamB}</li>
+                <li>
                     <button onClick={toggleShowGameInfo}>{isActive ? 'Cancel' : 'Edit Game'}</button>
-                </td>
-            </tr>
+                </li>
+            </ul>
             {isActive && (
-                <tr>
+                <div>
                     <EditGame game={game} />
-                </tr>
+                </div>
 
             )}
         </>

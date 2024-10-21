@@ -56,7 +56,11 @@ export const EditGame = ({ game }: EditGameProps) => {
     const filterOptions2 = teams?.filter(option => option.id !== values.teamAId);
 
     return (
-        <td>
+        <div style={{
+            width: '300px',
+            textAlign: 'center',
+            margin: '0, auto',
+        }}>
             <h2>Add Game</h2>
             <button onClick={toggleDeleteMode}>{mode === 'delete' ? 'Cancel' : 'Delete'}</button>
 
@@ -64,6 +68,6 @@ export const EditGame = ({ game }: EditGameProps) => {
             <GameForm handleSubmit={handleSubmit} handleChange={handleChange} value={values} isPending={isPending}
                       filterOptions1={filterOptions1} filterOptions2={filterOptions2}/>
 
-        </td>
+        </div>
     );
 };

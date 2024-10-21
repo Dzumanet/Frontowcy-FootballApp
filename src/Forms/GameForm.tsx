@@ -44,7 +44,11 @@ export const GameForm = ({
     };
 
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} style={{
+            display: 'flex',
+            flexDirection: 'column',
+
+        }}>
             <label htmlFor="gameTitle">Game Title</label>
             {errors.gameTitle && <p>{errors.gameTitle}</p>}
             <input
