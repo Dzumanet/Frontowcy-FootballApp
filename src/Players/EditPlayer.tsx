@@ -7,6 +7,8 @@ type EditPlayerProps = {
     player: PlayerEntity;
 }
 
+
+
 export const EditPlayer = ({ player }: EditPlayerProps) => {
     const { mutate, isPending } = useUpdatePlayerMutation(player.id);
 
@@ -35,8 +37,8 @@ export const EditPlayer = ({ player }: EditPlayerProps) => {
 
 
     return (
-        <div>
+        <>
             <PlayerForm handleSubmit={handleSubmit} handleChange={handleChange} values={values} isPending={isPending}/>
-        </div>
+        </>
     );
 };

@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { PlayerDto, PlayerValidationErrors } from "../types";
 import styled from "styled-components";
 import { validatePlayer } from "../utils/validatePlayer.ts";
+import { ActionButton, SaveButton } from "../Buttons/ActionButton.tsx";
 
 type PlayerFormProps = {
     handleSubmit: (e: FormEvent) => void;
@@ -11,8 +12,17 @@ type PlayerFormProps = {
     existingPlayers?: PlayerDto[];
 }
 
+const FormatedForm = styled.form`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
 const FormatedInput = styled.input`
-    max-width: 100px;
+    max-width: 120px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
 `;
 
 export const PlayerForm = ({ handleSubmit, handleChange, values, isPending, existingPlayers }: PlayerFormProps) => {
@@ -34,7 +44,7 @@ export const PlayerForm = ({ handleSubmit, handleChange, values, isPending, exis
     };
 
     return (
-        <form onSubmit={onSubmit}>
+        <FormatedForm onSubmit={onSubmit}>
             <label htmlFor="firstName">First Name</label>
             {errors.playerExists && <p>{errors.playerExists}</p>}
             <FormatedInput type="text" id="firstName" name="firstName" value={values.firstName} onChange={handleChange}
@@ -44,7 +54,8 @@ export const PlayerForm = ({ handleSubmit, handleChange, values, isPending, exis
             <FormatedInput type="text" id="lastName" name="lastName" value={values.lastName} onChange={handleChange}
                            required/>
             {errors.lastName && <p>{errors.lastName}</p>}
-            <button type="submit" disabled={isPending}>Save</button>
-        </form>
+            {/*<button type="submit" disabled={isPending}>Save</button>*/}
+            <ActionButton label='Save' Component={SaveButton} attribute={isPending} />
+        </FormatedForm>
     );
 };
