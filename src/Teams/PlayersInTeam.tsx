@@ -1,12 +1,18 @@
 import { useGetPlayersQuery } from "../queries/useGetPlayersQuery.ts";
 import { useState } from "react";
 import { useUpdateMultiplePlayersTeamMutation } from "../queries/useUpdateMultiplePlayersTeamMutation.ts";
+import styled from "styled-components";
+import { ActionButton, DeleteButton } from "../Buttons/ActionButton.tsx";
 
 type PlayersInTeamProps = {
     teamId: string | null;
     isEditMode: boolean;
 
 }
+
+const StyledList = styled.ul`
+    list-style: decimal;
+`;
 
 export const PlayersInTeam = ({ teamId, isEditMode }: PlayersInTeamProps) => {
     const { data: players } = useGetPlayersQuery();
@@ -36,11 +42,9 @@ export const PlayersInTeam = ({ teamId, isEditMode }: PlayersInTeamProps) => {
     };
 
     return (
-        <ul>
+        <StyledList>
             <p>Players in the team:</p>
-            {isEditMode && (<p> Select the players you want to remove</p>)}
             {teamPlayers && teamPlayers.length > 0 ? (
-
                 teamPlayers.map(player => (
                     <li key={player.id}>
                         {isEditMode ? (
@@ -55,16 +59,16 @@ export const PlayersInTeam = ({ teamId, isEditMode }: PlayersInTeamProps) => {
                         ) : (
                             <span>{player.firstName} {player.lastName}</span> // Wyświetlanie tylko imienia i nazwiska w trybie "nie edycji"
                         )}
-
                     </li>
-
                 ))
             ) : (
                 <p>No players in the team.</p>
             )}
+            {isEditMode && (<p> Select the players you want to remove.</p>)}
             {selectedPlayers.length > 0 && (
-                <button onClick={handleDeleteSelectedPlayer}>delete</button>
+                // <button onClick={handleDeleteSelectedPlayer}>delete</button>
+                <ActionButton onClick={handleDeleteSelectedPlayer} label="Delete" Component={DeleteButton}/>
             )}
-        </ul>
+        </StyledList>
     );
 };

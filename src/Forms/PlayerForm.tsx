@@ -55,7 +55,7 @@ export const PlayerForm = ({ handleSubmit, handleChange, values, isPending, exis
                            required/>
             {errors.lastName && <p>{errors.lastName}</p>}
             {/*<button type="submit" disabled={isPending}>Save</button>*/}
-            <ActionButton label='Save' Component={SaveButton} attribute={isPending} />
+            <ActionButton type="submit" label='Save' Component={SaveButton} disabled={isPending} />
         </FormatedForm>
     );
 };
