@@ -7,10 +7,24 @@ import { useGetPlayersQuery } from "../queries/useGetPlayersQuery.ts";
 import { useGetTeamsQuery } from "../queries/useGetTeamsQuery.ts";
 import { AddPlayersToTeam } from "./AddPlayersToTeam.tsx";
 import { usePlayerSelection } from "../hooks/usePlayerSelection.ts";
+import styled from "styled-components";
+
 
 type EditTeamProps = {
     team: TeamEntity;
 }
+
+const StyledEditWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+const StyledFormContainer = styled.div`
+    position: relative;
+    display: flex;
+    width: 100%;
+    margin-bottom: 30px;
+`;
 
 export const EditTeam = ({ team }: EditTeamProps) => {
     const { mutate: updateTeam, isPending } = useUpdateTeamMutation(team.id);
@@ -62,15 +76,20 @@ export const EditTeam = ({ team }: EditTeamProps) => {
     };
 
     return (
-        <div>
-            <h2>Edit Team</h2>
-            <TeamForm
-                handleSubmit={handleSubmit} handleChange={handleChange} values={values} isPending={isPending}
-                existingTeam={teams} editTeam={team}
-            />
-            <AddPlayersToTeam availablePlayers={players || []} addedPlayers={addedPlayers}
-                              handleAddPlayer={handleAddPlayer} handleSelectChange={handleSelectChange}
-                              selectedPlayerId={selectedPlayerId}/>
-        </div>
+        <StyledEditWrapper>
+            <div>
+                <h2>Edit Team</h2>
+            </div>
+            <StyledFormContainer>
+                <TeamForm
+                    handleSubmit={handleSubmit} handleChange={handleChange} values={values} isPending={isPending}
+                    existingTeam={teams} editTeam={team}
+                />
+                <AddPlayersToTeam availablePlayers={players || []} addedPlayers={addedPlayers}
+                                  handleAddPlayer={handleAddPlayer} handleSelectChange={handleSelectChange}
+                                  selectedPlayerId={selectedPlayerId}/>
+            </StyledFormContainer>
+
+        </StyledEditWrapper>
     );
 };

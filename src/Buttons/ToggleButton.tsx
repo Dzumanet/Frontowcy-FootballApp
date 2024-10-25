@@ -3,8 +3,8 @@ import { ElementType } from "react";
 
 const BaseButton = styled.button`
     border: none;
-    padding: 10px;
-    border-radius: 8px;
+    padding: 8px;
+    border-radius: 7px;
     cursor: pointer;
 `;
 
@@ -15,6 +15,16 @@ export const HeaderButton = styled(BaseButton)`
 export const AddButton = styled(BaseButton)`
     background-color: ${props => props.theme.colors.primaryButtonBackground};
     width: 150px;
+`;
+
+export const EditButton = styled(BaseButton)`
+    background-color: ${props => props.theme.colors.primaryButtonBackground};
+    width: 80px;
+`;
+
+export const DeleteButton = styled(BaseButton)`
+    background-color: ${props => props.theme.colors.deleteButtonBackground};
+    width: 80px;
 `;
 
 type ButtonProps = {

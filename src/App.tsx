@@ -10,7 +10,20 @@ const GlobalStyle = createGlobalStyle`
     }
 `;
 
+const ToggleThemeButton = styled.button`
+        font-size: 20px;
+        border: none;
+        line-height: 20px;
+        padding: 5px;
+        cursor: pointer;
+        background: none;
+        color: ${props => props.theme.colors.primaryText};
+        
+    `
+
 const queryClient = new QueryClient();
+
+
 
 export const App = () => {
     const [isLight, setIsLight] = useState(true);
@@ -42,16 +55,7 @@ export const App = () => {
         }
     };
 
-    const ToggleThemeButton = styled.button`
-        font-size: 20px;
-        border: none;
-        line-height: 20px;
-        padding: 5px;
-        cursor: pointer;
-        background: none;
-        color: ${props => props.theme.colors.primaryText};
-        
-    `
+
 
     const toggleTheme = () => {
         setIsLight(prevLight => !prevLight);

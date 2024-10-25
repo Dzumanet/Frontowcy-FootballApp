@@ -23,13 +23,13 @@ type ActionButtonProps = {
     label: string;
     Component: ElementType;
     type?: string;
-    attribute?: boolean;
+    disabled?: boolean;
 }
 
-export const ActionButton = ({ onClick, label, Component, type, attribute }: ActionButtonProps) => {
+export const ActionButton = ({ onClick, label, Component, type, disabled }: ActionButtonProps) => {
 
     return (
-        <Component type={type} attribute={attribute} onClick={onClick}>
+        <Component type={type} disabled={disabled} onClick={onClick}>
             {label}
         </Component>
     );

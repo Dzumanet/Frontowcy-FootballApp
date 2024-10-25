@@ -7,6 +7,19 @@ import { useUpdateMultiplePlayersTeamMutation } from "../queries/useUpdateMultip
 import { useGetTeamsQuery } from "../queries/useGetTeamsQuery.ts";
 import { AddPlayersToTeam } from "./AddPlayersToTeam.tsx";
 import { usePlayerSelection } from "../hooks/usePlayerSelection.ts";
+import styled from "styled-components";
+
+const StyledAddWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    position: relative;
+`
+const StyledAddContainer = styled.div`
+    position: relative;
+    display: flex;
+    width: 100%;
+    margin-bottom: 30px;
+`
 
 export const AddTeam = () => {
     const { mutate: createTeam, isPending } = useCreateTeamMutation();
@@ -47,13 +60,17 @@ export const AddTeam = () => {
     };
 
     return (
-        <div>
-            <h2>Add New Team</h2>
+        <StyledAddWrapper>
+            <div>
+                <h2>Add New Team</h2>
+            </div>
+            <StyledAddContainer>
             <TeamForm handleSubmit={handleSubmit} handleChange={handleChange} values={values} isPending={isPending}
                       existingTeam={teams}/>
             <AddPlayersToTeam availablePlayers={players || []} addedPlayers={addedPlayers}
                               handleAddPlayer={handleAddPlayer} handleSelectChange={handleSelectChange}
                               selectedPlayerId={selectedPlayerId}/>
-        </div>
+            </StyledAddContainer>
+        </StyledAddWrapper>
     );
 };
