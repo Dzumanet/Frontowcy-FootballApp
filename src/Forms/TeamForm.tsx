@@ -3,6 +3,7 @@ import { TeamDto, TeamEntity, TeamValidationErrors } from "../types";
 import { validateTeam } from "../utils/validateTeam.ts";
 import styled from "styled-components";
 import { ActionButton, SaveButton } from "../Buttons/ActionButton.tsx";
+import { ErrorText } from "../common/ErrorText.tsx";
 
 type TeamFormProps = {
     handleSubmit: (e: FormEvent) => void;
@@ -72,9 +73,9 @@ export const TeamForm = ({
 
     return (
         <StyledForm onSubmit={onSubmit}>
-            {errors.teamExists && <p>{errors.teamExists}</p>}
+            {errors.teamExists && <ErrorText>{errors.teamExists}</ErrorText>}
             <StyledLabel htmlFor="teamName">Team Name</StyledLabel>
-            {errors.teamName && <p>{errors.teamName}</p>}
+            {errors.teamName && <ErrorText>{errors.teamName}</ErrorText>}
 
             <StyledInput
                 type="text"
@@ -86,7 +87,7 @@ export const TeamForm = ({
             />
 
             <StyledLabel htmlFor="location">Location</StyledLabel>
-            {errors.location && <p>{errors.location}</p>}
+            {errors.location && <ErrorText>{errors.location}</ErrorText>}
             <StyledInput
                 type="text"
                 id="location"
@@ -97,7 +98,7 @@ export const TeamForm = ({
             />
 
             <StyledLabel htmlFor="establishedYear">Established Year</StyledLabel>
-            {errors.establishedYear && <p>{errors.establishedYear}</p>}
+            {errors.establishedYear && <ErrorText>{errors.establishedYear}</ErrorText>}
             <StyledNumberInput
                 type="number"
                 id="establishedYear"

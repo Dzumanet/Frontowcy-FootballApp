@@ -37,7 +37,8 @@ export const App = () => {
             buttonBackground: '#1D4ED8',
             buttonText: '#ffffff',
             deleteButtonBackground: '#e62828',
-            primaryButtonBackground: '#b8b8b8'
+            primaryButtonBackground: '#b8b8b8',
+            errorText: '#910b0b'
         }
     };
 
@@ -50,7 +51,9 @@ export const App = () => {
             buttonBackground: '#6366F1',
             buttonText: '#ffffff',
             deleteButtonBackground: '#e62828',
-            primaryButtonBackground: '#5a5a5a'
+            primaryButtonBackground: '#5a5a5a',
+            errorText: '#910b0b'
+
 
         }
     };

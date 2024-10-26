@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { GameDto, GameValidationErrors, TeamEntity } from "../types";
 import { validateGame } from "../utils/validateGame.ts";
+import { ErrorText } from "../common/ErrorText.tsx";
 
 type GameFormProps = {
     handleSubmit: (e: FormEvent) => void;
@@ -50,7 +51,7 @@ export const GameForm = ({
 
         }}>
             <label htmlFor="gameTitle">Game Title</label>
-            {errors.gameTitle && <p>{errors.gameTitle}</p>}
+            {errors.gameTitle && <ErrorText>{errors.gameTitle}</ErrorText>}
             <input
                 type="text"
                 id="gameTitle"
@@ -61,7 +62,7 @@ export const GameForm = ({
             />
 
             <label htmlFor="gameDate">Game Date</label>
-            {errors.gameDate && <p>{errors.gameDate}</p>}
+            {errors.gameDate && <ErrorText>{errors.gameDate}</ErrorText>}
             <input
                 type="date"
                 id="gameDate"
@@ -72,7 +73,7 @@ export const GameForm = ({
             />
 
             <label htmlFor="venue">Venue</label>
-            {errors.venue && <p>{errors.venue}</p>}
+            {errors.venue && <ErrorText>{errors.venue}</ErrorText>}
             <input
                 type="text"
                 id="venue"
@@ -83,7 +84,7 @@ export const GameForm = ({
             />
 
             <label htmlFor="duration">Duration Time</label>
-            {errors.duration && <p>{errors.duration}</p>}
+            {errors.duration && <ErrorText>{errors.duration}</ErrorText>}
             <input
                 type="number"
                 id="duration"
@@ -95,7 +96,7 @@ export const GameForm = ({
             />
 
             <label htmlFor="teamAId">Team A</label>
-            {errors.teamAId && <p>{errors.teamAId}</p>}
+            {errors.teamAId && <ErrorText>{errors.teamAId}</ErrorText>}
             <select
                 id="teamAId"
                 name="teamAId"
@@ -112,7 +113,7 @@ export const GameForm = ({
             </select>
 
             <label htmlFor="resultTeamA">Result Team A</label>
-            {errors.resultTeamA && <p>{errors.resultTeamA}</p>}
+            {errors.resultTeamA && <ErrorText>{errors.resultTeamA}</ErrorText>}
             <input
                 type="number"
                 id="resultTeamA"
@@ -124,7 +125,7 @@ export const GameForm = ({
             />
 
             <label htmlFor="teamBId">Team B</label>
-            {errors.teamBId && <p>{errors.teamBId}</p>}
+            {errors.teamBId && <ErrorText>{errors.teamBId}</ErrorText>}
             <select
                 id="teamBId"
                 name="teamBId"
@@ -141,7 +142,7 @@ export const GameForm = ({
             </select>
 
             <label htmlFor="resultTeamB">Result Team B</label>
-            {errors.resultTeamB && <p>{errors.resultTeamB}</p>}
+            {errors.resultTeamB && <ErrorText>{errors.resultTeamB}</ErrorText>}
             <input
                 type="number"
                 id="resultTeamB"

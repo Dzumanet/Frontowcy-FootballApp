@@ -3,6 +3,7 @@ import { PlayerDto, PlayerValidationErrors } from "../types";
 import styled from "styled-components";
 import { validatePlayer } from "../utils/validatePlayer.ts";
 import { ActionButton, SaveButton } from "../Buttons/ActionButton.tsx";
+import { ErrorText } from "../common/ErrorText.tsx";
 
 type PlayerFormProps = {
     handleSubmit: (e: FormEvent) => void;
@@ -46,16 +47,28 @@ export const PlayerForm = ({ handleSubmit, handleChange, values, isPending, exis
     return (
         <FormatedForm onSubmit={onSubmit}>
             <label htmlFor="firstName">First Name</label>
-            {errors.playerExists && <p>{errors.playerExists}</p>}
-            <FormatedInput type="text" id="firstName" name="firstName" value={values.firstName} onChange={handleChange}
-                           required/>
-            {errors.firstName && <p>{errors.firstName}</p>}
+            {errors.playerExists && <ErrorText>{errors.playerExists}</ErrorText>}
+            <FormatedInput
+                type="text"
+                id="firstName"
+                name="firstName"
+                value={values.firstName}
+                onChange={handleChange}
+                // required
+            />
+            {errors.firstName && <ErrorText>{errors.firstName}</ErrorText>}
             <label htmlFor="lastName">Last Name</label>
-            <FormatedInput type="text" id="lastName" name="lastName" value={values.lastName} onChange={handleChange}
-                           required/>
-            {errors.lastName && <p>{errors.lastName}</p>}
+            <FormatedInput
+                type="text"
+                id="lastName"
+                name="lastName"
+                value={values.lastName}
+                onChange={handleChange}
+                // required
+            />
+            {errors.lastName && <ErrorText>{errors.lastName}</ErrorText>}
             {/*<button type="submit" disabled={isPending}>Save</button>*/}
-            <ActionButton type="submit" label='Save' Component={SaveButton} disabled={isPending} />
+            <ActionButton type="submit" label="Save" Component={SaveButton} disabled={isPending}/>
         </FormatedForm>
     );
 };
