@@ -2,6 +2,8 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { GameDto, GameValidationErrors, TeamEntity } from "../types";
 import { validateGame } from "../utils/validateGame.ts";
 import { ErrorText } from "../common/ErrorText.tsx";
+import styled from "styled-components";
+import { ActionButton, SaveButton } from "../Buttons/ActionButton.tsx";
 
 type GameFormProps = {
     handleSubmit: (e: FormEvent) => void;
@@ -11,6 +13,60 @@ type GameFormProps = {
     filterOptions1: TeamEntity[] | undefined;
     filterOptions2: TeamEntity[] | undefined;
 }
+
+
+const StyledForm = styled.form`
+    //width: 80%;
+    //height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 20px;
+`;
+
+const StyledContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    //width: 20%;
+    //justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    margin: 0 15px;
+
+    position: relative;
+`;
+const StyledInput = styled.input`
+    width: 150px;
+    padding: 5px;
+
+`;
+
+const StyledLabel = styled.label`
+    width: 120px;
+    margin: 10px 0;
+
+`;
+
+
+const StyledSelect = styled.select`
+    width: 160px;
+    padding: 5px;
+
+`;
+const StyledNumberInput = styled.input`
+    width: 150px;
+    padding: 5px;
+    text-align: center;
+
+`;
+const StyledBtnContainer = styled.div`
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+
+`;
 
 export const GameForm = ({
                              handleSubmit,
@@ -34,127 +90,137 @@ export const GameForm = ({
 
     });
 
+
     const onSubmit = (e: FormEvent) => {
         e.preventDefault();
         const validationErrors = validateGame(value);
         setErrors(validationErrors);
 
-        if (!validationErrors.gameTitle && !validationErrors.gameDate && !validationErrors.venue && !validationErrors.duration) {
+        if (!validationErrors.gameTitle && !validationErrors.gameDate && !validationErrors.venue && !validationErrors.duration && !validationErrors.teamAId && !validationErrors.teamBId) {
             handleSubmit(e);
         }
     };
 
     return (
-        <form onSubmit={onSubmit} style={{
-            display: 'flex',
-            flexDirection: 'column',
 
-        }}>
-            <label htmlFor="gameTitle">Game Title</label>
-            {errors.gameTitle && <ErrorText>{errors.gameTitle}</ErrorText>}
-            <input
-                type="text"
-                id="gameTitle"
-                name="gameTitle"
-                value={value.gameTitle}
-                onChange={handleChange}
-                // required
-            />
+        <StyledForm onSubmit={onSubmit}>
+            <StyledContainer>
+                <StyledLabel htmlFor="gameTitle">Game Title</StyledLabel>
+                <StyledInput
+                    type="text"
+                    id="gameTitle"
+                    name="gameTitle"
+                    value={value.gameTitle}
+                    onChange={handleChange}
+                    // required
+                />
+                {errors.gameTitle && <ErrorText>{errors.gameTitle}</ErrorText>}
 
-            <label htmlFor="gameDate">Game Date</label>
-            {errors.gameDate && <ErrorText>{errors.gameDate}</ErrorText>}
-            <input
-                type="date"
-                id="gameDate"
-                name="gameDate"
-                value={value.gameDate}
-                onChange={handleChange}
-                // required
-            />
+                <StyledLabel htmlFor="venue">Venue Location</StyledLabel>
+                <StyledInput
+                    type="text"
+                    id="venue"
+                    name="venue"
+                    value={value.venue}
+                    onChange={handleChange}
+                    // required
+                />
+                {errors.venue && <ErrorText>{errors.venue}</ErrorText>}
 
-            <label htmlFor="venue">Venue</label>
-            {errors.venue && <ErrorText>{errors.venue}</ErrorText>}
-            <input
-                type="text"
-                id="venue"
-                name="venue"
-                value={value.venue}
-                onChange={handleChange}
-                // required
-            />
 
-            <label htmlFor="duration">Duration Time</label>
-            {errors.duration && <ErrorText>{errors.duration}</ErrorText>}
-            <input
-                type="number"
-                id="duration"
-                name="duration"
-                value={value.duration}
-                onChange={handleChange}
-                // min={90}
-                // required
-            />
+                <StyledLabel htmlFor="teamAId">Team A</StyledLabel>
+                {errors.teamAId && <ErrorText>{errors.teamAId}</ErrorText>}
 
-            <label htmlFor="teamAId">Team A</label>
-            {errors.teamAId && <ErrorText>{errors.teamAId}</ErrorText>}
-            <select
-                id="teamAId"
-                name="teamAId"
-                value={value.teamAId ?? ''}
-                onChange={handleChange}
-                // required
-            >
-                <option value="" disabled>Select Team A</option>
-                {filterOptions1?.map(team => (
-                    <option key={team.id} value={team.id}>
-                        {team.teamName}
-                    </option>
-                ))}
-            </select>
+                <StyledSelect
+                    id="teamAId"
+                    name="teamAId"
+                    value={value.teamAId ?? ''}
+                    onChange={handleChange}
+                    // required
+                >
 
-            <label htmlFor="resultTeamA">Result Team A</label>
-            {errors.resultTeamA && <ErrorText>{errors.resultTeamA}</ErrorText>}
-            <input
-                type="number"
-                id="resultTeamA"
-                name="resultTeamA"
-                value={value.resultTeamA}
-                onChange={handleChange}
-                // min={0}
-                // required
-            />
+                    <option value="" disabled>Select Team A</option>
+                    {filterOptions1?.map(team => (
+                        <option key={team.id} value={team.id}>
+                            {team.teamName}
+                        </option>
+                    ))}
+                </StyledSelect>
 
-            <label htmlFor="teamBId">Team B</label>
-            {errors.teamBId && <ErrorText>{errors.teamBId}</ErrorText>}
-            <select
-                id="teamBId"
-                name="teamBId"
-                value={value.teamBId ?? ''}
-                onChange={handleChange}
-                // required
-            >
-                <option value="" disabled>Select Team B</option>
-                {filterOptions2?.map(team => (
-                    <option key={team.id} value={team.id}>
-                        {team.teamName}
-                    </option>
-                ))}
-            </select>
+                <StyledLabel htmlFor="teamBId">Team B</StyledLabel>
+                {errors.teamBId && <ErrorText>{errors.teamBId}</ErrorText>}
 
-            <label htmlFor="resultTeamB">Result Team B</label>
-            {errors.resultTeamB && <ErrorText>{errors.resultTeamB}</ErrorText>}
-            <input
-                type="number"
-                id="resultTeamB"
-                name="resultTeamB"
-                value={value.resultTeamB}
-                onChange={handleChange}
-                // min={0}
-                // required
-            />
+                <StyledSelect
+                    id="teamBId"
+                    name="teamBId"
+                    value={value.teamBId ?? ''}
+                    onChange={handleChange}
+                    // required
+                >
 
-            <button type="submit" disabled={isPending}>Save Game</button>
+                    <option value="" disabled>Select Team B</option>
+                    {filterOptions2?.map(team => (
+                        <option key={team.id} value={team.id}>
+                            {team.teamName}
+                        </option>
+                    ))}
+                </StyledSelect>
+            </StyledContainer>
+            <StyledContainer>
 
-        </form>
+                <StyledLabel htmlFor="gameDate">Game Date</StyledLabel>
+                <StyledNumberInput
+                    type="date"
+                    id="gameDate"
+                    name="gameDate"
+                    value={value.gameDate}
+                    onChange={handleChange}
+                    // required
+                />
+                {errors.gameDate && <ErrorText>{errors.gameDate}</ErrorText>}
+
+
+                <StyledLabel htmlFor="duration">Duration Time</StyledLabel>
+                <StyledNumberInput
+                    type="number"
+                    id="duration"
+                    name="duration"
+                    value={value.duration}
+                    onChange={handleChange}
+                    // min={90}
+                    // required
+                />
+                {errors.duration && <ErrorText>{errors.duration}</ErrorText>}
+
+                <StyledLabel htmlFor="resultTeamA">Result Team A</StyledLabel>
+                <StyledNumberInput
+                    type="number"
+                    id="resultTeamA"
+                    name="resultTeamA"
+                    value={value.resultTeamA}
+                    onChange={handleChange}
+                    // min={0}
+                    // required
+                />
+                {errors.resultTeamA && <ErrorText>{errors.resultTeamA}</ErrorText>}
+
+                <StyledLabel htmlFor="resultTeamB">Result Team B</StyledLabel>
+                <StyledNumberInput
+                    type="number"
+                    id="resultTeamB"
+                    name="resultTeamB"
+                    value={value.resultTeamB}
+                    onChange={handleChange}
+                    // min={0}
+                    // required
+                />
+                {errors.resultTeamB && <ErrorText>{errors.resultTeamB}</ErrorText>}
+
+            </StyledContainer>
+            <StyledBtnContainer>
+                <ActionButton type="submit"  label='Save Game' Component={SaveButton} disabled={isPending} />
+            </StyledBtnContainer>
+        </StyledForm>
     );
+
 };

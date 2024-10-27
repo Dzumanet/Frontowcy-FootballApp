@@ -1,6 +1,7 @@
 import { GameEntity } from "../types";
-import { EditGame } from "./EditGame.tsx";
-import { useGetTeamsQuery } from "../queries/useGetTeamsQuery.ts";
+import { GameInfo } from "./GameInfo.tsx";
+import { EditButton, ToggleButton } from "../Buttons/ToggleButton.tsx";
+import { useFindTeamById } from "../hooks/useFindTeamById.tsx";
 
 type OneGameProps = {
     game: GameEntity;
@@ -10,38 +11,28 @@ type OneGameProps = {
 
 export const OneGame = ({ game, isActive, toggleShowGameInfo }: OneGameProps) => {
 
-    const {data: teams, isFetching, error} = useGetTeamsQuery();
-
-    const teamA = teams?.find(team => team.id === game.teamAId);
-    const teamB = teams?.find(team => team.id === game.teamBId);
-
-    if (isFetching) return <p>Loading...</p>;
-    if (error) return <p>{error.message}</p>;
+    const {teamA, teamB} = useFindTeamById(game.teamAId, game.teamBId);
 
     return (<>
-            <ul style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '800px'
-
-            }}>
-                <li>{game.id}</li>
-                <li>{game.gameTitle}</li>
-                <li>{game.gameDate}</li>
-                <li>{game.venue}</li>
-                <li>{game.duration} min</li>
-                <li>{teamA?.teamName}</li>
-                <li>{teamB?.teamName}</li>
-                <li>{game.resultTeamA} : {game.resultTeamB}</li>
-                <li>
-                    <button onClick={toggleShowGameInfo}>{isActive ? 'Cancel' : 'Edit Game'}</button>
-                </li>
-            </ul>
+            <tr>
+                <td>{game.gameTitle}</td>
+                <td>{game.gameDate}</td>
+                <td>{game.venue}</td>
+                <td>{game.duration} min</td>
+                <td>{teamA?.teamName}</td>
+                <td>{teamB?.teamName}</td>
+                <td>{game.resultTeamA} : {game.resultTeamB}</td>
+                <td>
+                    <ToggleButton onClick={toggleShowGameInfo} isShown={isActive} showText="Edit" hideText="Cancel"
+                                  Component={EditButton}/>
+                </td>
+            </tr>
             {isActive && (
-                <div>
-                    <EditGame game={game} />
-                </div>
-
+                <tr>
+                    <td colSpan={8}>
+                        <GameInfo game={game}/>
+                    </td>
+                </tr>
             )}
         </>
     );

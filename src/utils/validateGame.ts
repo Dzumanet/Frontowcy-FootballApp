@@ -34,10 +34,24 @@ export const validateGame = (values: GameDto) => {
         }
     }
 
+    if (!values.venue.trim()) {
+        errors.venue = 'Provide the venue location.';
+    } else if (values.venue.length < 2) {
+        errors.venue = 'Venue location must be at least 2 characters long.';
+    }
+
     if (values.duration === undefined || values.duration === null) {
         errors.duration = 'Duration is required.';
     } else if (values.duration < 90) {
         errors.duration = 'Duration must be greater than or equal to 90 minutes.';
+    }
+
+    if (!values.teamAId) {
+        errors.teamAId = 'Team A is required.';
+    }
+
+    if (!values.teamBId) {
+        errors.teamBId = 'Team B is required.';
     }
 
     if (values.resultTeamA === undefined || values.resultTeamA === null) {
@@ -51,6 +65,8 @@ export const validateGame = (values: GameDto) => {
     } else if (values.resultTeamB < 0) {
         errors.resultTeamB = 'Result must be 0 or greater.';
     }
+
+
 
     return errors;
 };

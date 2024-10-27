@@ -6,12 +6,12 @@ import styled from "styled-components";
 import { AddButton, ToggleButton } from "../Buttons/ToggleButton.tsx";
 
 
-const StyledTeamListContainer = styled.div`
+const StyledTeamsListContainer = styled.div`
     width: 800px;
     margin: 0 auto;
 `;
 
-const StyledTeamTable = styled.table`
+const StyledTeamsTable = styled.table`
     width: 100%;
     border-collapse: collapse;
     margin-top: 1rem;
@@ -42,7 +42,7 @@ const StyledTableBody = styled.tbody`
     }
 `;
 
-const StyledAddTeamContainer = styled.div`
+const StyledAddContainer = styled.div`
     margin-top: 15px;
     text-align: center;
 `;
@@ -65,8 +65,8 @@ export const TeamsList = () => {
     };
 
     return (
-        <StyledTeamListContainer>
-            <StyledTeamTable>
+        <StyledTeamsListContainer>
+            <StyledTeamsTable>
                 <StyledTableHeader>
                     <tr>
                         {/*<th>ID</th>*/}
@@ -84,12 +84,12 @@ export const TeamsList = () => {
                         toggleShowTeamInfo={() => toggleShowTeamInfo(team.id)}
                     />)}
                 </StyledTableBody>
-            </StyledTeamTable>
-            <StyledAddTeamContainer>
+            </StyledTeamsTable>
+            <StyledAddContainer>
                 <ToggleButton onClick={toggleAddTeam} isShown={addTeam} showText="Add Team" hideText="Close"
                               Component={AddButton}/>
                 {addTeam ? <AddTeam/> : undefined}
-            </StyledAddTeamContainer>
-        </StyledTeamListContainer>
+            </StyledAddContainer>
+        </StyledTeamsListContainer>
     );
 };

@@ -3,16 +3,28 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { GameDto, GameEntity } from "../types";
 import { GameForm } from "../Forms/GameForm.tsx";
 import { useUpdateGameMutation } from "../queries/useUpdateGameMutation.ts";
-import { DeleteGameConfirmation } from "./DeleteGameConfirmation.tsx";
+import styled from "styled-components";
 
 type EditGameProps = {
     game: GameEntity;
 }
 
+const StyledEditWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+const StyledFormContainer = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin-bottom: 30px;
+`;
+
 export const EditGame = ({ game }: EditGameProps) => {
     const { mutate: updateGame, isPending } = useUpdateGameMutation(game.id);
     const { data: teams } = useGetTeamsQuery();
-    const [mode, setMode] = useState<'delete' | 'none'>('none');
 
 
     const [values, setValues] = useState<GameDto>({
@@ -40,9 +52,6 @@ export const EditGame = ({ game }: EditGameProps) => {
             teamBId: values.teamBId
         });
     };
-    const toggleDeleteMode = () => {
-        setMode(prevMode => prevMode === "delete" ? "none" : "delete");
-    };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target;
@@ -56,18 +65,14 @@ export const EditGame = ({ game }: EditGameProps) => {
     const filterOptions2 = teams?.filter(option => option.id !== values.teamAId);
 
     return (
-        <div style={{
-            width: '300px',
-            textAlign: 'center',
-            margin: '0, auto',
-        }}>
-            <h2>Add Game</h2>
-            <button onClick={toggleDeleteMode}>{mode === 'delete' ? 'Cancel' : 'Delete'}</button>
-
-            {mode === 'delete' ? <DeleteGameConfirmation game={game} /> : undefined}
+        <StyledEditWrapper>
+            <div>
+            <h2>Edit Game</h2>
+            </div>
+            <StyledFormContainer>
             <GameForm handleSubmit={handleSubmit} handleChange={handleChange} value={values} isPending={isPending}
                       filterOptions1={filterOptions1} filterOptions2={filterOptions2}/>
-
-        </div>
+            </StyledFormContainer>
+        </StyledEditWrapper>
     );
 };

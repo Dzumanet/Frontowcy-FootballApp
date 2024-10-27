@@ -7,10 +7,6 @@ import { useGetTeamsQuery } from "../queries/useGetTeamsQuery.ts";
 export const AddGame = () => {
     const { mutate: createGame, isPending } = useCreateGameMutation();
     const { data: teams, isFetching, error } = useGetTeamsQuery();
-
-
-
-
     const [values, setValues] = useState<GameDto>({
         gameTitle: '',
         gameDate: '',

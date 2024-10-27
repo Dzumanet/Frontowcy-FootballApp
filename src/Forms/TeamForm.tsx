@@ -108,7 +108,6 @@ export const TeamForm = ({
                 // required
             />
             <StyledBtnContainer>
-                {/*<button type="submit" disabled={isPending}>Save Team</button>*/}
                 <ActionButton type="submit" label="Save Team" Component={SaveButton} disabled={isPending}/>
             </StyledBtnContainer>
         </StyledForm>
