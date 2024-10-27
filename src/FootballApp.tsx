@@ -2,6 +2,25 @@ import { useState } from "react";
 import { PlayerList } from "./Players/PlayerList.tsx";
 import { TeamsList } from "./Teams/TeamsList.tsx";
 import { GamesList } from "./Games/GamesList.tsx";
+import styled from "styled-components";
+import { ToggleButton, HeaderButton } from "./Buttons/ToggleButton.tsx";
+
+const FootballAppWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: ${props => props.theme.colors.primaryBackground};
+    color: ${props => props.theme.colors.primaryText};
+`;
+
+const StyledHeader = styled.header`
+    text-align: center;
+
+    button {
+        margin-right: 20px;
+    }
+`;
 
 export const FootballApp = () => {
     const [mode, setMode] = useState<'playerList' | 'teamList' | 'gameList' | 'none'>('none');
@@ -19,21 +38,24 @@ export const FootballApp = () => {
 
 
     return (
-        <>
-            <div>
+        <FootballAppWrapper>
+            <StyledHeader>
                 <h1>Football App</h1>
-                <button onClick={toggleShowPlayer}>{mode === 'playerList' ? 'Hide Players' : 'Show players'}</button>
-                <button onClick={toggleShowTeams}>{mode === 'teamList' ? 'Hide Teams' : 'Show Teams'}</button>
-                <button onClick={toggleShowGame}>{mode === 'gameList' ? 'Hide Games' : 'Show Games'}</button>
+                <ToggleButton onClick={toggleShowPlayer} isShown={mode === 'playerList'} showText="Show players"
+                              hideText="Hide Players" Component={HeaderButton}/>
+                <ToggleButton onClick={toggleShowTeams} isShown={mode === 'teamList'} showText="Show Teams"
+                              hideText="Hide Teams" Component={HeaderButton}/>
+                <ToggleButton onClick={toggleShowGame} isShown={mode === 'gameList'} showText="Show Games"
+                              hideText="Hide Games" Component={HeaderButton}/>
 
 
-            </div>
-            <div>
+            </StyledHeader>
+            <main>
                 {mode === 'playerList' ? <PlayerList/> : undefined}
                 {mode === 'teamList' ? <TeamsList/> : undefined}
                 {mode === 'gameList' ? <GamesList/> : undefined}
-            </div>
-        </>
+            </main>
+        </FootballAppWrapper>
 
     );
 

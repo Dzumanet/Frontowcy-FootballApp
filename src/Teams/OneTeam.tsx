@@ -11,7 +11,7 @@ export const OneTeam = ({ team, isActive, toggleShowTeamInfo }: OneTeamProps) =>
 
     return (<>
             <tr>
-                <td>{team.id}</td>
+                {/*<td>{team.id}</td>*/}
                 <td>{team.teamName}</td>
                 <td>{team.location}</td>
                 <td>{team.establishedYear}</td>
@@ -21,7 +21,9 @@ export const OneTeam = ({ team, isActive, toggleShowTeamInfo }: OneTeamProps) =>
             </tr>
             {isActive && (
                 <tr>
-                    <TeamInfo team={team}/>
+                    <td colSpan={4}>
+                        <TeamInfo team={team}/>
+                    </td>
                 </tr>
             )}
         </>

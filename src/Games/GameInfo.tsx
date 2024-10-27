@@ -1,17 +1,20 @@
-import { TeamEntity } from "../types";
+import { GameEntity } from "../types";
 import { useState } from "react";
-import { DeleteTeamConfirmation } from "./DeleteTeamConfirmation.tsx";
-import { EditTeam } from "./EditTeam.tsx";
-import { PlayersInTeam } from "./PlayersInTeam.tsx";
 import styled from "styled-components";
 import { DeleteButton, EditButton, ToggleButton } from "../Buttons/ToggleButton.tsx";
+import { useFindTeamById } from "../hooks/useFindTeamById.tsx";
+import { EditGame } from "./EditGame.tsx";
+import { DeleteGameConfirmation } from "./DeleteGameConfirmation.tsx";
 
 
-type TeamInfoProps = {
-    team: TeamEntity;
+type GameInfoProps = {
+    game: GameEntity;
+    // teamA: TeamEntity | null;
+    // teamB: TeamEntity | null;
+
 }
 
-const TeamContainer = styled.div`
+const GameContainer = styled.div`
     position: relative;
 `;
 
@@ -59,8 +62,9 @@ const DeleteBtnContainer = styled.div`
 `;
 
 
-export const TeamInfo = ({ team }: TeamInfoProps) => {
+export const GameInfo = ({ game }: GameInfoProps) => {
     const [mode, setMode] = useState<'edit' | 'delete' | 'none'>('none');
+    const { teamA, teamB } = useFindTeamById(game.teamAId, game.teamBId);
 
     const toggleEditMode = () => {
         setMode(prevMode => prevMode === "edit" ? "none" : "edit");
@@ -70,27 +74,40 @@ export const TeamInfo = ({ team }: TeamInfoProps) => {
         setMode(prevMode => prevMode === "delete" ? "none" : "delete");
     };
 
+
     return (
         <>
-            <TeamContainer>
+            <GameContainer>
                 <StyledInfo>
-                    <h2>{team.teamName}</h2>
+                    <h2>{game.gameTitle}</h2>
                     <div>
-                        <h3>Location: {team.location}</h3>
-                        <h3>Established Year: {team.establishedYear}</h3>
+                        <p>{game.gameTitle}</p>
+                        <p>{game.gameDate}</p>
+                        <p>{game.venue}</p>
+                        <p>{game.duration} min</p>
+                        <div>
+                            {teamA && teamB ? (
+                                <>
+                                    <p>{teamA.teamName} : {teamB.teamName}</p>
+                                    <p>{game.resultTeamA} : {game.resultTeamB}</p> </>
+                            ) : (
+                                <div>
+                                    <p>No team added</p>
+                                </div>
+                            )}
+                        </div>
+
                     </div>
                 </StyledInfo>
 
-                <PlayersInTeam teamId={team.id} isEditMode={mode === 'edit'}/>
                 <div>
-                    {mode === 'edit' ? <EditTeam team={team}/> : undefined}
+                    {mode === 'edit' ? <EditGame game={game}/> : undefined}
                     {mode === 'delete' ?
-                        <DeleteTeamConfirmation onCancel={toggleDeleteMode} team={team}/> : undefined}
+                        <DeleteGameConfirmation game={game}/> : undefined}
                 </div>
                 <EditBtnContainer>
                     <ToggleButton onClick={toggleEditMode} isShown={mode === 'edit'} showText="Edit" hideText="Cancel"
                                   Component={EditButton}/>
-                    {/*<button onClick={toggleEditMode}>{mode === 'edit' ? 'Cancel' : 'Edit'}</button>*/}
                 </EditBtnContainer>
                 <DeleteBtnContainer>
                     <ToggleButton onClick={toggleDeleteMode} isShown={mode === 'delete'} showText="Delete"
@@ -98,7 +115,7 @@ export const TeamInfo = ({ team }: TeamInfoProps) => {
 
 
                 </DeleteBtnContainer>
-            </TeamContainer>
+            </GameContainer>
 
         </>
     );

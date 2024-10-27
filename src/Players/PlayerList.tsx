@@ -3,15 +3,47 @@ import { OnePlayer } from "./OnePlayer.tsx";
 import styled from "styled-components";
 import { AddPlayer } from "./AddPlayer.tsx";
 import { useState } from "react";
+import { AddButton, ToggleButton } from "../Buttons/ToggleButton.tsx";
 
-// const PlayerListWrapper = styled.div`
-//     display: flex;
-//     flex-direction: column;
-//
-// `;
+const PlayerListContainer = styled.div`
+    width: 800px;
+    margin: 0 auto;
+`;
 
-const StyledTable = styled.table`
-    //width: 780px;
+const PlayerTable = styled.table`
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    table-layout: fixed;
+    font-size: 18px;
+`;
+
+const TableHeader = styled.thead`
+    background-color: ${props => props.theme.colors.secondaryBackground};
+
+    tr {
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        padding: 0.5rem;
+        text-align: left;
+    }
+`;
+
+const TableBody = styled.tbody`
+    tr {
+        border-bottom: 1px solid #ddd;
+    }
+    td {
+        padding: 0.8rem;
+    }
+`;
+
+const AddPlayerContainer = styled.div`
+    margin-top: 30px;
+    text-align: center;
+
 `;
 
 export const PlayerList = () => {
@@ -26,23 +58,29 @@ export const PlayerList = () => {
     };
 
     return (
-        <div>
-            <StyledTable>
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Team ID</th>
-                </tr>
-                </thead>
-                <tbody>
-                {data?.map(player => <OnePlayer player={player} key={player.id}/>)}
-                </tbody>
-            </StyledTable>
-            <button onClick={toggleAddPlayer}>{addPlayer ? 'Close' : 'Add Player'}</button>
-            {addPlayer ? <AddPlayer/> : undefined}
-        </div>
+        <PlayerListContainer>
+            <PlayerTable>
+                <TableHeader>
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Team ID</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </TableHeader>
+                <TableBody>
+                    {data?.map(player => (
+                        <OnePlayer player={player} key={player.id}/>
+                    ))}
+                </TableBody>
+            </PlayerTable>
+            <AddPlayerContainer>
+                <ToggleButton onClick={toggleAddPlayer} isShown={addPlayer} showText="Add Player" hideText="Close"
+                              Component={AddButton}/>
+                {addPlayer && <AddPlayer/>}
+            </AddPlayerContainer>
+        </PlayerListContainer>
     );
-
 };
