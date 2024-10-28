@@ -26,6 +26,10 @@ export const DeleteButton = styled(BaseButton)`
     background-color: ${props => props.theme.colors.deleteButtonBackground};
     width: 80px;
 `;
+export const StatsButton = styled(BaseButton)`
+    background-color: ${props => props.theme.colors.primaryButtonBackground};
+    width: 140px;
+`;
 
 type ButtonProps = {
     onClick: () => void;

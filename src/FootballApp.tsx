@@ -4,6 +4,7 @@ import { TeamsList } from "./Teams/TeamsList.tsx";
 import { GamesList } from "./Games/GamesList.tsx";
 import styled from "styled-components";
 import { ToggleButton, HeaderButton } from "./Buttons/ToggleButton.tsx";
+import { Stats } from "./Stats/Stats.tsx";
 
 const FootballAppWrapper = styled.div`
     display: flex;
@@ -23,7 +24,7 @@ const StyledHeader = styled.header`
 `;
 
 export const FootballApp = () => {
-    const [mode, setMode] = useState<'playerList' | 'teamList' | 'gameList' | 'none'>('none');
+    const [mode, setMode] = useState<'playerList' | 'teamList' | 'gameList' | 'stats' | 'none'>('none');
 
 
     const toggleShowPlayer = () => {
@@ -34,6 +35,9 @@ export const FootballApp = () => {
     };
     const toggleShowGame = () => {
         setMode(prevMode => prevMode === 'gameList' ? 'none' : 'gameList');
+    };
+    const toggleShowStats = () => {
+        setMode(prevMode => prevMode === 'stats' ? 'none' : 'stats');
     };
 
 
@@ -47,6 +51,8 @@ export const FootballApp = () => {
                               hideText="Hide Teams" Component={HeaderButton}/>
                 <ToggleButton onClick={toggleShowGame} isShown={mode === 'gameList'} showText="Show Games"
                               hideText="Hide Games" Component={HeaderButton}/>
+                <ToggleButton onClick={toggleShowStats} isShown={mode === 'stats'} showText="Show Statistics"
+                              hideText="Hide Games" Component={HeaderButton}/>
 
 
             </StyledHeader>
@@ -54,6 +60,7 @@ export const FootballApp = () => {
                 {mode === 'playerList' ? <PlayerList/> : undefined}
                 {mode === 'teamList' ? <TeamsList/> : undefined}
                 {mode === 'gameList' ? <GamesList/> : undefined}
+                {mode === 'stats' ? <Stats/> : undefined}
             </main>
         </FootballAppWrapper>
 
