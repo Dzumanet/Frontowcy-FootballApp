@@ -2,6 +2,49 @@ import { ChangeEvent, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { useGetGamesQuery } from "../queries/useGetGamesQuery.ts";
 import { GameEntity } from "../types";
+import styled from "styled-components";
+
+
+const StyledContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  
+`;
+const StyledStatsTable = styled.table`
+    width: 70%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 18px;
+`;
+
+const StyledTableHeader = styled.thead`
+    background-color: ${props => props.theme.colors.secondaryBackground};
+
+    tr {
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        padding: 0.5rem;
+        text-align: center;
+    }
+`;
+
+const StyledTh = styled.th`
+    width: 120px;
+`;
+
+const StyledTableBody = styled.tbody`
+    tr {
+        border-bottom: 1px solid #ddd;
+    }
+
+    td {
+        padding: 0.8rem;
+    }
+`;
 
 
 export const GameChart = () => {
@@ -56,6 +99,7 @@ export const GameChart = () => {
 
     const chartData = processData(data!, timeUnit);
 
+
     return (
         <div>
             <div>
@@ -73,29 +117,32 @@ export const GameChart = () => {
                     <XAxis dataKey="date" angle={-45} textAnchor="end" interval={0} height={60}/>
                     <YAxis/>
                     <Tooltip/>
-                    <Legend/>
-                    <Bar dataKey="count" name="Games Played" fill="#8884d8"/>
+                    <Legend wrapperStyle={{
+                        position: 'relative',
+                        top: 0,
+                    }}/>
+                    <Bar  dataKey="count" name="Games Played" fill="#8884d8"/>
                 </BarChart>
             </div>
-            <div>
+            <StyledContainer>
                 <h3>Data Table</h3>
-                <table>
-                    <thead>
+                <StyledStatsTable>
+                    <StyledTableHeader>
                     <tr>
-                        <th>Date</th>
-                        <th>Games Played</th>
+                        <StyledTh>Date</StyledTh>
+                        <StyledTh>Games Played</StyledTh>
                     </tr>
-                    </thead>
-                    <tbody>
+                    </StyledTableHeader>
+                    <StyledTableBody>
                     {chartData.map((data) => (
                         <tr key={data.date}>
                             <td>{data.date}</td>
                             <td>{data.count}</td>
                         </tr>
                     ))}
-                    </tbody>
-                </table>
-            </div>
+                    </StyledTableBody>
+                </StyledStatsTable>
+            </StyledContainer>
         </div>
     );
 };
