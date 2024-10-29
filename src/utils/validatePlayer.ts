@@ -35,9 +35,6 @@ export const validatePlayer = (values: PlayerDto, existingPlayers?: PlayerDto[])
 };
 
 export const validatePlayerAssignedToTeam = (player: PlayerEntity): boolean => {
-    if (player.teamId) {
-        console.log('Player is assigned to a team. Cannot be removed.');
-        return true;
-    }
-    return false;
+    return !!player.teamId;
+
 };

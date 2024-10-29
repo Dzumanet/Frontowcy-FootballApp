@@ -1,4 +1,4 @@
-import { TeamDto, TeamEntity, TeamValidationErrors } from "../types";
+import { GameEntity, TeamDto, TeamEntity, TeamValidationErrors } from "../types";
 
 export const validateTeam = (values: TeamDto, existingTeam?: TeamDto[], currentTeam?: TeamEntity) => {
     const errors: TeamValidationErrors = {
@@ -36,4 +36,14 @@ export const validateTeam = (values: TeamDto, existingTeam?: TeamDto[], currentT
     }
 
     return errors;
+};
+
+export const validateTeamParticipationInGames = (teamId: string, games: GameEntity[]) => {
+    const teamInGames = games.some(
+        (game) => game.teamAId === teamId || game.teamBId === teamId
+    );
+
+    return teamInGames;
+
+
 };

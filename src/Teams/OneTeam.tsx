@@ -1,5 +1,6 @@
 import { TeamEntity } from "../types";
 import { TeamInfo } from "./TeamInfo.tsx";
+import { ShowButton, ToggleButton } from "../Buttons/ToggleButton.tsx";
 
 type OneTeamProps = {
     team: TeamEntity;
@@ -16,7 +17,8 @@ export const OneTeam = ({ team, isActive, toggleShowTeamInfo }: OneTeamProps) =>
                 <td>{team.location}</td>
                 <td>{team.establishedYear}</td>
                 <td>
-                    <button onClick={toggleShowTeamInfo}>{isActive ? 'Cancel' : 'Show Info'}</button>
+                    <ToggleButton onClick={toggleShowTeamInfo} isShown={isActive} showText="Show Info" hideText="Cancel"
+                                  Component={ShowButton}/>
                 </td>
             </tr>
             {isActive && (

@@ -86,7 +86,6 @@ export const GameForm = ({
         resultTeamB: '',
         teamAId: '',
         teamBId: '',
-        existingGame: ''
 
     });
 

@@ -10,7 +10,6 @@ export const validateGame = (values: GameDto) => {
         resultTeamB: '',
         teamAId: '',
         teamBId: '',
-        existingGame: ''
     };
 
     if (!values.gameTitle.trim()) {
@@ -65,7 +64,6 @@ export const validateGame = (values: GameDto) => {
     } else if (values.resultTeamB < 0) {
         errors.resultTeamB = 'Result must be 0 or greater.';
     }
-
 
 
     return errors;

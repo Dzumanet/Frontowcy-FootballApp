@@ -30,6 +30,10 @@ export const StatsButton = styled(BaseButton)`
     background-color: ${props => props.theme.colors.primaryButtonBackground};
     width: 140px;
 `;
+export const ShowButton = styled(BaseButton)`
+    background-color: ${props => props.theme.colors.primaryButtonBackground};
+    width: 100px;
+`;
 
 type ButtonProps = {
     onClick: () => void;

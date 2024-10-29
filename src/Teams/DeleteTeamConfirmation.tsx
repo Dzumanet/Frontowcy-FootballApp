@@ -4,6 +4,8 @@ import { useGetPlayersQuery } from "../queries/useGetPlayersQuery.ts";
 import { useUpdateMultiplePlayersTeamMutation } from "../queries/useUpdateMultiplePlayersTeamMutation.ts";
 import styled from "styled-components";
 import { ActionButton, CancelButton, DeleteButton } from "../Buttons/ActionButton.tsx";
+import { validateTeamParticipationInGames } from "../utils/validateTeam.ts";
+import { useGetGamesQuery } from "../queries/useGetGamesQuery.ts";
 
 
 type DeletePlayerConfirmationProps = {
@@ -43,10 +45,17 @@ export const DeleteTeamConfirmation = ({ onCancel, team }: DeletePlayerConfirmat
     const { mutate, isPending } = useDeleteTeamMutation(team.id);
     const { mutate: updatePlayersTeam } = useUpdateMultiplePlayersTeamMutation();
     const { data: players } = useGetPlayersQuery();
+    const { data: games } = useGetGamesQuery();
+
+    const validationTeamInGame = validateTeamParticipationInGames(team.id, games || []);
 
     const teamPlayers = players?.filter(player => player.teamId === team.id);
 
     const handleDelete = () => {
+        if (validationTeamInGame) {
+            return;
+        }
+
         mutate(undefined, {
             onSuccess: () => {
                 if (teamPlayers) {
@@ -66,26 +75,32 @@ export const DeleteTeamConfirmation = ({ onCancel, team }: DeletePlayerConfirmat
 
     return (
         <StyledDeleteTeamContainer>
-            <p>Do you really want to delete team </p>
-            <p>{team.teamName} ?</p>
-            {teamPlayers && teamPlayers.length > 0 ? (
+            {validationTeamInGame ? (
+                <p>This team has participated in games and cannot be removed.</p>
+            ) : (
                 <>
-                    <p>By deleting the team, you will also remove the players assigned to it.</p>
-                    <ul>
-                        {teamPlayers.map(player => (
-                            <li key={player.id}>
-                                {player.firstName} {player.lastName}
-                            </li>
-                        ))}
-                    </ul>
+                    <p>Do you really want to delete team </p>
+                    <p>{team.teamName} ?</p>
+                    {teamPlayers && teamPlayers.length > 0 ? (
+                        <>
+                            <p>By deleting the team, you will also remove the players assigned to it.</p>
+                            <ul>
+                                {teamPlayers.map(player => (
+                                    <li key={player.id}>
+                                        {player.firstName} {player.lastName}
+                                    </li>
+                                ))}
+                            </ul>
+                        </>
+                    ) : undefined}
+                    <div>
+                        <ActionButton onClick={handleDelete} label="Delete" Component={DeleteButton}/>
+                        <ActionButton onClick={onCancel} label="Cancel" Component={CancelButton}/>
+                    </div>
                 </>
-            ) : undefined}
-            <div>
-                <ActionButton onClick={handleDelete} label="Delete" Component={DeleteButton}/>
-                <ActionButton onClick={onCancel} label="Cancel" Component={CancelButton}/>
-                {/*<button onClick={handleDelete}>Delete</button>*/}
-                {/*<button onClick={onCancel}>Cancel</button>*/}
-            </div>
+            )
+            }
+
         </StyledDeleteTeamContainer>
     );
 

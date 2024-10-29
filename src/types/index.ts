@@ -55,5 +55,4 @@ export type GameValidationErrors = {
     resultTeamB: string,
     teamAId: string,
     teamBId: string,
-    existingGame: string
 }
